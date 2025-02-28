@@ -1,0 +1,5 @@
+@use 'tailwindcss';
+
+.heading-1 {
+  @apply underline text-2xl;
+}

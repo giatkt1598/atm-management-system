@@ -1,0 +1,17 @@
+{
+  "New Component": {
+    "scope": "typescript",
+    "prefix": "ncom",
+    "body": [
+      "import { Component } from \"@angular/core\";",
+      "import { AppBaseComponent } from \"src/app/shared/app-base.component\";",
+      "@Component({",
+      "\tselector: 'app-$1',",
+      "\ttemplateUrl: '$TM_FILENAME_BASE.html',",
+      "})",
+      "export class $2Component extends AppBaseComponent {",
+      "$0",
+      "}",
+    ],
+  },
+}

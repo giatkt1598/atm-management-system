@@ -1,0 +1,129 @@
+<div class="max-w-5xl m-auto">
+  <br />
+
+  <form nz-form class="card p-3 mb-2">
+    <div class="font-bold text-lg">Search ATM</div>
+    <nz-divider />
+    <div class="row">
+      <div class="col-md-3">
+        <nz-form-item>
+          <nz-form-label>Name</nz-form-label>
+          <nz-form-control>
+            <input nz-input maxlength="250" name="name" [(ngModel)]="input.name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-3">
+        <nz-form-item>
+          <nz-form-label>Manufacturer</nz-form-label>
+          <nz-form-control>
+            <input nz-input maxlength="250" name="manufacturer" [(ngModel)]="input.manufacturer" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-3">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control>
+            <input nz-input maxlength="250" name="type" [(ngModel)]="input.type" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-3">
+        <nz-form-item>
+          <nz-form-label>Serial</nz-form-label>
+          <nz-form-control>
+            <input nz-input maxlength="250" name="serial" [(ngModel)]="input.serial" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div class="col-md-12 flex flex-row gap-2">
+        <button class="btn btn-primary" (click)="handleSearch()">Search</button>
+        <button class="btn btn-secondary" (click)="handleReset()">Reset</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="card p-2 mb-2 flex flex-row justify-between items-center">
+    <div class="font-bold">Toolbar:</div>
+    <div class="flex flex-row gap-3">
+      <a href="/atm/create">
+        <button class="btn btn-primary">Add New ATM</button>
+      </a>
+      <button class="btn btn-info" (click)="handleExportData()">Export Data</button>
+    </div>
+  </div>
+
+  <div class="card p-2 m-auto">
+    <table mat-table [dataSource]="atmList" class="mat-elevation-z8">
+      <!-- Data Row -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>ATM Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="manufacturer">
+        <th mat-header-cell *matHeaderCellDef width="230">Manufacturer</th>
+        <td mat-cell *matCellDef="let element">{{ element.manufacturer }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef width="230">Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="serial">
+        <th mat-header-cell *matHeaderCellDef width="230">Serial Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.serial }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef width="230">Image</th>
+        <td mat-cell *matCellDef="let element">
+          <a [href]="element.image">
+            <img [src]="element.image" class="w-10 object-cover rounded-sm" />
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="_action">
+        <th mat-header-cell *matHeaderCellDef width="230">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="flex flex-row gap-1">
+            <a href="/atm/edit/{{ element.id }}">
+              <button class="btn btn-warning">Edit</button>
+            </a>
+            <button class="btn btn-danger" (click)="handleDelete(element.id)">Delete</button>
+            <button class="btn btn-secondary" disabled>Cancel</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Header Row Def -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- Data Row Def -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-row gap-2 items-center">
+        <div class="flex flex-row gap-3">
+          <button class="btn btn-info" (click)="handleExportData()">Export Data</button>
+        </div>
+      </div>
+      <mat-paginator
+        [pageSizeOptions]="[10, 20, 50, 100]"
+        [pageIndex]="(input.skipCount ?? 0) / (input.maxResultCount ?? 10)"
+        (page)="handlePageChanged($event)"
+        [length]="totalCount"
+        [pageSize]="input.maxResultCount"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirm delete -->
